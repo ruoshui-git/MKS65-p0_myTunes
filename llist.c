@@ -10,21 +10,22 @@
 
 // Create the following functions:
 void print_list(struct node * n){
-  printf("Printing node at address %p\n[ ", n);
+  printf("Printing playlist at address %p\n |", n);
   struct node *current = n;
   while (current){
-    printf("%d ", current->i);
+    printf("%s: %s |", current->artist, current->name);
     current = current->next;
   }
-  printf("]\n");
+  printf("\n");
 }
 // Should take a pointer to a node struct and print out all of the data in the list
 
-struct node * insert_front(struct node * n, int x){
+struct node * insert_front(struct node * n, char* newname, char* newartist){
   // Make sure that there's enough memory to insert_front with malloc
   struct node *current = malloc(sizeof(struct node));
+  current->name = newname;
+  current->artist = newartist;
   current->next = n;
-  current->i = x;
   return current;
 }
 // Should take a pointer to the existing list and the data to be added, create a new node and put it at the beginning of the list.
@@ -38,25 +39,23 @@ struct node * free_list(struct node *n){
     free(n);
     n = current;
   }
-  // print_list(n);
   return n; //should be NULL
 }
 // Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).
 
-struct node * remove_node(struct node *front, int data){
+struct node * remove_node(struct node *front, char *rname, char *rartist){
     if (front == NULL){
       return front;
     }
     struct node *current = front;
     struct node *nextN = front->next;
-    if (current == front && current->i == data) { //if data is at front
-      //front = nextN; //move front to nextN
+    if (current == front && current->name == rname && current->artist == rartist) { //if data is at front
       free(current);
       return nextN;
     }
     while(nextN){
       printf("nextN's i: %d\n", nextN->i);
-      if(nextN->i == data){
+      if(nextN->name == rname && current->artist){
           current->next = nextN->next; // set nextN's next to current's next
           free(nextN); // and free nextN
           return front;
