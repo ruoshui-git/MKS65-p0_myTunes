@@ -76,4 +76,12 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
 // Remove the node containing data from the list pointed to by front.
 // If data is not in the list, nothing is changed.
 // Returns a pointer to the beginning of the list.
-// Your list functions should be in a .c/.h library, with a separate .c file used for testing.
+
+//Ruoshui's functions
+// insert nodes in order: alphabetical by Artist then by Song
+// find and return a pointer to a node based on artist and song name
+
+
+//Rachel's functions
+// find and return a pointer to the first song of an artist based on artist name
+// Return a pointer to random element in the list.
