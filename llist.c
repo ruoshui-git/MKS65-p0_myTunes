@@ -13,9 +13,13 @@
 void print_list(struct node * n){
   printf("Printing playlist at address %p: \n  ", n);
   struct node *current = n;
+  int i = 0;
   while (current){
     printf("%s: %s | ", current->artist, current->name);
     current = current->next;
+  }
+  if (i == 0){
+    printf("No songs in playlist.");
   }
   printf("\n");
 }
@@ -23,7 +27,6 @@ void print_list(struct node * n){
 
 struct node * insert_front(struct node * n, char *newname, char *newartist){
   // Make sure that there's enough memory to insert_front with malloc
-  //printf("  Adding '%s' by '%s' at %p\n", newname, newartist, n);
   printf("\nAdding song '%s' by '%s' at %p:\n", newname, newartist, n );
   struct node *current = malloc(sizeof(struct node));
   strcpy(current->name, newname);
@@ -38,6 +41,7 @@ struct node * insert_front(struct node * n, char *newname, char *newartist){
 struct node * free_list(struct node *n){
   struct node *current = n;
   while(n){
+    printf("Freeing '%s' by '%s'...\n", n->name, n->artist);
     current = n->next;
     free(n);
     n = current;
@@ -52,12 +56,13 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
     }
     struct node *current = front;
     struct node *nextN = front->next;
-    if (current == front && current->name == rname && current->artist == rartist) { //if data is at front
+    if (current == front && strcmp(current->name, rname) == 0 && strcmp(current->artist, rartist) == 0){
+      //if in front
       free(current);
       return nextN;
     }
     while(nextN){
-      if(nextN->name == rname && current->artist){
+    if (strcmp(nextN->name, rname)==0 && current->artist){
           current->next = nextN->next; // set nextN's next to current's next
           free(nextN); // and free nextN
           return front;
