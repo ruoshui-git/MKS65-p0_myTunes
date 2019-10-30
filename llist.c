@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "llist.h"
 
 // struct node{
@@ -10,21 +11,23 @@
 
 // Create the following functions:
 void print_list(struct node * n){
-  printf("Printing playlist at address %p\n |", n);
+  printf("Printing playlist at address %p: \n  ", n);
   struct node *current = n;
   while (current){
-    printf("%s: %s |", current->artist, current->name);
+    printf("%s: %s | ", current->artist, current->name);
     current = current->next;
   }
   printf("\n");
 }
 // Should take a pointer to a node struct and print out all of the data in the list
 
-struct node * insert_front(struct node * n, char* newname, char* newartist){
+struct node * insert_front(struct node * n, char *newname, char *newartist){
   // Make sure that there's enough memory to insert_front with malloc
+  //printf("  Adding '%s' by '%s' at %p\n", newname, newartist, n);
+  printf("\nAdding song '%s' by '%s' at %p:\n", newname, newartist, n );
   struct node *current = malloc(sizeof(struct node));
-  current->name = newname;
-  current->artist = newartist;
+  strcpy(current->name, newname);
+  strcpy(current->artist, newartist);
   current->next = n;
   return current;
 }
@@ -54,7 +57,6 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
       return nextN;
     }
     while(nextN){
-      printf("nextN's i: %d\n", nextN->i);
       if(nextN->name == rname && current->artist){
           current->next = nextN->next; // set nextN's next to current's next
           free(nextN); // and free nextN

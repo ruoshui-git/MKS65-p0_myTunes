@@ -11,7 +11,7 @@ EXE = main
 HDRS = llist.h songlib.h
 
 # space-separated list of source files
-SRCS = main.c linkedlist.c songlib.c
+SRCS = main.c llist.c songlib.c
 
 # automatically generated list of object files
 OBJS = $(SRCS:.c=.o)
