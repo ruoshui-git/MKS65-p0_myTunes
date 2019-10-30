@@ -4,8 +4,8 @@
 #include "llist.h"
 
 // struct node{
-//   char name[100];
-//   char artist[100];
+//   char name[MAX_NAME_LEN];
+//   char artist[MAX_NAME_LEN];
 //   struct node *next;
 // };
 
@@ -27,7 +27,9 @@ void print_list(struct node * n){
 
 struct node * insert_front(struct node * n, char *newname, char *newartist){
   // Make sure that there's enough memory to insert_front with malloc
-  printf("\nAdding song '%s' by '%s' at %p:\n", newname, newartist, n );
+
+  // printf("\nAdding song '%s' by '%s' at %p:\n", newname, newartist, n );
+
   struct node *current = malloc(sizeof(struct node));
   strcpy(current->name, newname);
   strcpy(current->artist, newartist);
@@ -38,8 +40,46 @@ struct node * insert_front(struct node * n, char *newname, char *newartist){
 // The second argument should match whatever data you contain in your nodes.
 // Returns a pointer to the beginning of the list.
 
-struct node * free_list(struct node *n){
-  struct node *current = n;
+// insert nodes in order
+// alphabetical by Artist then by Song
+struct node * insert(struct node * n, char * name, char * artist)
+{
+    struct node * trav = n;
+    struct node * cur = malloc(sizeof(struct node));
+    strcpy(cur->name, name);
+    strcpy(cur->artist, artist);
+    cur->next = NULL;
+    if (!n)
+    {
+        return cur;
+    }
+
+    while (trav)
+    {
+        int cmp = strncmp(trav->artist, artist, MAX_NAME_LEN);
+
+
+        if (cmp > 0)
+        {
+            // node should be inserted before this node
+            
+        }
+        else if (cmp < 0)
+        {
+            // node should be after here
+
+        }
+        else
+        {
+            // compare by Song
+        }
+    }
+}
+
+
+struct node * free_list(struct node *n)
+{
+  struct node * current = n;
   while(n){
     printf("Freeing '%s' by '%s'...\n", n->name, n->artist);
     current = n->next;
@@ -51,7 +91,8 @@ struct node * free_list(struct node *n){
 // Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).
 
 struct node * remove_node(struct node *front, char *rname, char *rartist){
-    if (front == NULL){
+    if (front == NULL)
+    {
       return front;
     }
     struct node *current = front;
