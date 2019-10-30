@@ -27,6 +27,26 @@ $(OBJS): $(HDRS) Makefile
 # housekeeping
 clean:
 	rm -f core $(EXE) *.o
+	rm -rf obj
 
 run:
 	./$(EXE)
+
+
+
+# Not working at this point. Maybe later. http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
+# OBJDIR := obj
+#
+# DEPDIR := $(OBJDIR)/.deps
+# DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+#
+# COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS) $(TARGET_ARCH) -c
+#
+# $(OBJDIR)/%.o : %.c $(DEPDIR)/%.d | $(DEPDIR)
+# 	$(COMPILE.c) $(OUTPUT_OPTION) $<
+#
+# $(DEPDIR): ; @mkdir -p $@
+#
+# DEPFILES := $(SRCS:%.c=$(DEPDIR)/%.d)
+# $(DEPFILES):
+# include $(wildcard $(DEPFILES))
