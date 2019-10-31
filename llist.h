@@ -1,6 +1,9 @@
-struct node{
-  char name[100];
-  char artist[100];
+#define MAX_NAME_LEN 100
+
+struct node
+{
+  char name[MAX_NAME_LEN];
+  char artist[MAX_NAME_LEN];
   struct node *next;
 };
 // struct song_node * table[27];
