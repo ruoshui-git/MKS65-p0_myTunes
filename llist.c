@@ -17,6 +17,7 @@ void print_list(struct node * n){
   while (current){
     printf("%s: %s | ", current->artist, current->name);
     current = current->next;
+    i++;
   }
   if (i == 0){
     printf("No songs in playlist.");
@@ -84,4 +85,22 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
 
 //Rachel's functions
 // find and return a pointer to the first song of an artist based on artist name
+struct node * first_song_by(struct node *n, char *newartist)
+{
+  if (n == NULL){ //in case playlist is empty
+    return NULL;
+  }
+  struct node *current = n;
+  while (current->next){
+    if (strcmp(current->artist, newartist) == 0){
+      return current;
+    }
+    current = current->next;
+  }
+  return NULL;
+}
+// struct node * random_song(struct node *n)
+// {
+//
+// }
 // Return a pointer to random element in the list.
