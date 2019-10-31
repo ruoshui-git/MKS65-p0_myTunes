@@ -44,7 +44,6 @@ struct node * insert_front(struct node * n, char *newname, char *newartist){
 // alphabetical by Artist then by Song
 struct node * insert(struct node * n, char * name, char * artist)
 {
-    struct node * trav = n;
     struct node * cur = malloc(sizeof(struct node));
     strcpy(cur->name, name);
     strcpy(cur->artist, artist);
@@ -54,25 +53,72 @@ struct node * insert(struct node * n, char * name, char * artist)
         return cur;
     }
 
+    struct node * trav = n;
+    struct node * prev = NULL;
+
     while (trav)
     {
-        int cmp = strncmp(trav->artist, artist, MAX_NAME_LEN);
+
+        int cmp = strncmp(artist, trav->artist, MAX_NAME_LEN);
 
 
         if (cmp > 0)
         {
-            // node should be inserted before this node
-            
+            // node should be inserted after this node
+            prev = trav;
+            trav = trav->next;
         }
         else if (cmp < 0)
         {
-            // node should be after here
+            // node should be inserted right here
+            cur->next = trav;
+            if (prev)
+            {
+                prev->next = cur;
+            }
+            else
+            {
+                // list head is changed, so point to new head
+                n = cur;
+            }
 
+            // done inserting
+            return n;
         }
         else
         {
             // compare by Song
+            cmp = strncmp(name, trav->name, MAX_NAME_LEN);
+
+            if (cmp > 0)
+            {
+                prev = trav;
+                trav = trav->next;
+            }
+            else if (cmp < 0)
+            {
+                cur->next = trav;
+                if (prev)
+                {
+                    prev->next = cur;
+                }
+                else
+                {
+                    // list head is changed, so point to new head
+                    n = cur;
+                }
+
+                return n;
+            }
+            else
+            {
+                // song and artist names are equal, don't store
+                return n;
+            }
         }
+        // by this point, we should be at the end of the list
+        prev->next = cur;
+        return n;
     }
 }
 
