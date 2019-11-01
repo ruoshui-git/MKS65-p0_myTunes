@@ -169,6 +169,7 @@ struct node * get_by_artist_song(struct node * front, char * song, char * artist
         {
             return trav;
         }
+        trav = trav->next;
     }
 
     // if not found, return NULL, or trav

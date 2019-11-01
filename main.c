@@ -1,11 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "llist.h"
 
-void printbar(){
-  printf("==================================================\n");
+
+void printbar(void)
+{
+  puts("==================================================");
 }
+void print_result(int cond)
+{
+    printf("result: %s\n", cond? "passed" : "failed");
+}
+
 int main(void)
 {
   struct node *p0 = NULL;
@@ -33,6 +41,25 @@ int main(void)
     print_list(p0);
   }
 
+  printbar();
+  puts("Testing get_by_artist_song: ");
+  
+  struct node * p1 = NULL;
+  puts("Get first song:");
+  p1 = get_by_artist_song(p0, "taylor swift", "22");
+  print_result(p0==p1);
+
+  puts("Get last song:");
+  p1 = get_by_artist_song(p0, "taylor swift", "hey stephen");
+  print_result(strncmp(p1->name, "taylor swift", MAX_NAME_LEN) == 0 && strncmp(p1->artist, "hey stephen", MAX_NAME_LEN) == 0);
+
+  char artist[100] = "ed sheeran";
+  char song[100] = "photograph";
+  printf("Get %s by %s\n", song, artist);
+  p1 = get_by_artist_song(p0, artist, song);
+  print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
+
+  printbar();
 
   printf("\nTesting remove_node: \n");
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
