@@ -36,18 +36,17 @@ int main(void)
   struct song_node *p1 = NULL;
   struct song_node *p2 = NULL;
 
-  printbar();
-  printf("Testing first_song_by:\n");
-  printbar();
-  p2 = first_song_by(p1, "taylor swift");
-  printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
-  p2 = first_song_by(p0, "daughtry");
-  printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
-  p2 = first_song_by(p0, "taylor swift");
-  printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
-  p2 = first_song_by(p0, "the fray");
-  printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
-
+  // printbar();
+  // printf("Testing first_song_by:\n");
+  // printbar();
+  // p2 = first_song_by(p1, "taylor swift");
+  // printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
+  // p2 = first_song_by(p0, "daughtry");
+  // printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
+  // p2 = first_song_by(p0, "taylor swift");
+  // printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
+  // p2 = first_song_by(p0, "the fray");
+  // printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
 
   printbar();
   printf("Testing remove_song_node: \n");
@@ -77,7 +76,7 @@ int main(void)
   printbar();
   srand(time(NULL));
   p2=random_song(p0);
-  print_song_node(p2);
+  print_list(p2);
 
   printbar();
   printf("Testing free_list: \n");

@@ -17,3 +17,6 @@ struct song_node * free_list(struct song_node * n);
 struct song_node * remove_song_node(struct song_node *front, char *newname, char *newartist);
 struct song_node * first_song_by(struct song_node *n, char *newartist);
 struct song_node * random_song(struct song_node *n);
+// new
+struct node * get_by_artist_song(struct node * n, char * song, char * artist);
+struct node * insert(struct node * n, char * name, char * artist);
