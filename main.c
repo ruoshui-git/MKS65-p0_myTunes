@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 #include "llist.h"
 
 void printbar(){
@@ -8,7 +8,7 @@ void printbar(){
 }
 int main(void)
 {
-  struct node *p0 = NULL;
+  struct song_node *p0 = NULL;
   char *songname, *artistname;
   char *songnames[10] = {"22", "i want it that way", "photograph", "enchanted", "no surprise", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
   char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor Swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
@@ -33,8 +33,8 @@ int main(void)
     print_list(p0);
   }
 
-  struct node *p1 = NULL;
-  struct node *p2 = NULL;
+  struct song_node *p1 = NULL;
+  struct song_node *p2 = NULL;
 
   printbar();
   printf("Testing first_song_by:\n");
@@ -50,27 +50,34 @@ int main(void)
 
 
   printbar();
-  printf("Testing remove_node: \n");
+  printf("Testing remove_song_node: \n");
   printbar();
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
-  p0=remove_node(p0, "overdose", "exo");
+  p0=remove_song_node(p0, "overdose", "exo");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'stay' by 'blackpink' (not in list)\n");
-  p0=remove_node(p0, "stay", "blackpink");
+  p0=remove_song_node(p0, "stay", "blackpink");
   print_list(p0);
   printf("Address should not be different, neither should the list.\n\n");
 
   printf("Removing '22' by 'taylor swift' (end of list): \n");
-  p0=remove_node(p0, "22", "taylor swift");
+  p0=remove_song_node(p0, "22", "taylor swift");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'hey stephen' by 'taylor swift' (beginning of list)\n");
-  p0=remove_node(p0, "hey stephen", "taylor swift");
+  p0=remove_song_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
   printf("Address should be different.\n\n");
+
+  printbar();
+  printf("Testing random_song\n");
+  printbar();
+  srand(time(NULL));
+  p2=random_song(p0);
+  print_song_node(p2);
 
   printbar();
   printf("Testing free_list: \n");
@@ -82,9 +89,10 @@ int main(void)
   print_list(p0);
 
   printf("\nRemoving 'try' by 'p!nk' from empty list: \n");
-  remove_node(p0, "try", "pink");
+  p0=remove_song_node(p0, "try", "pink");
   print_list(p0);
   printf("Address should not be different.\n");
+
 
   return 0;
 }
