@@ -6,7 +6,7 @@ struct song_node
   char artist[MAX_NAME_LEN];
   struct song_node *next;
 };
-// struct song_song_node * table[27];
+
 
 // from previous assignment
 void print_list(struct song_node * n);

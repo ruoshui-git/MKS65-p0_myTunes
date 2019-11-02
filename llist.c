@@ -180,20 +180,20 @@ struct song_node * remove_song_node(struct song_node *front, char *rname, char *
 
 //Rachel's functions
 // find and return a pointer to the first song of an artist based on artist name
-// struct song_node * first_song_by(struct song_node *n, char *newartist)
-// {
-//   if (n == NULL){ //in case playlist is empty
-//     return NULL;
-//   }
-//   struct song_node *current = n;
-//   while (current->next){
-//     if (strcmp(current->artist, newartist) == 0){
-//       return current;
-//     }
-//     current = current->next;
-//   }
-//   return NULL;
-// }
+struct song_node * first_song_by(struct song_node *n, char *newartist)
+{
+  if (n == NULL){ //in case playlist is empty
+    return NULL;
+  }
+  struct song_node *current = n;
+  while (current->next){
+    if (strcmp(current->artist, newartist) == 0){
+      return current;
+    }
+    current = current->next;
+  }
+  return NULL;
+}
 struct song_node * random_song(struct song_node *n)
 {
   if (n == NULL){

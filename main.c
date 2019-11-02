@@ -4,7 +4,7 @@
 #include "llist.h"
 
 void printbar(){
-  printf("==================================================\n");
+  printf("\n==============================================================\n");
 }
 int main(void)
 {
@@ -15,13 +15,12 @@ int main(void)
 
   printbar();
   printf("Begin testing for linkedlist: \n");
-  printbar();
   printf("Printing empty list (NULL): \n");
   print_list(p0);
+  // printbar();
 
   printbar();
   printf("Begin testing insert_front (Adding 10 songs):\n");
-  printbar();
   int i;
   for (i = 0; i < 10; i++){
     // printf("%d\n", i);
@@ -32,25 +31,25 @@ int main(void)
     p0 = insert_front( p0, songname, artistname );
     print_list(p0);
   }
+  // printbar();
 
   struct song_node *p1 = NULL;
   struct song_node *p2 = NULL;
 
+  printbar();
+  printf("Testing first_song_by:\n");
+  p2 = first_song_by(p1, "taylor swift");
+  printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
+  p2 = first_song_by(p0, "daughtry");
+  printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
+  p2 = first_song_by(p0, "taylor swift");
+  printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
+  p2 = first_song_by(p0, "the fray");
+  printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
   // printbar();
-  // printf("Testing first_song_by:\n");
-  // printbar();
-  // p2 = first_song_by(p1, "taylor swift");
-  // printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
-  // p2 = first_song_by(p0, "daughtry");
-  // printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
-  // p2 = first_song_by(p0, "taylor swift");
-  // printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
-  // p2 = first_song_by(p0, "the fray");
-  // printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
 
   printbar();
   printf("Testing remove_song_node: \n");
-  printbar();
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
   p0=remove_song_node(p0, "overdose", "exo");
   print_list(p0);
@@ -70,27 +69,28 @@ int main(void)
   p0=remove_song_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
   printf("Address should be different.\n\n");
+  // printbar();
 
   printbar();
-  printf("Testing random_song\n");
-  printbar();
+  printf("Testing random_song:\n");
   srand(time(NULL));
   p2=random_song(p0);
   print_list(p2);
+  // printbar();
 
   printbar();
   printf("Testing free_list: \n");
-  printbar();
 
   p0 = free_list(p0);
 
   printf("\nPrinting the freed p0 (should be NULL)\n");
   print_list(p0);
 
-  printf("\nRemoving 'try' by 'p!nk' from empty list: \n");
-  p0=remove_song_node(p0, "try", "pink");
+  printf("\nRemoving 'photograph' by 'ed sheeran' from empty list: \n");
+  p0=remove_song_node(p0, "photograph", "ed sheeran");
   print_list(p0);
   printf("Address should not be different.\n");
+  // printbar();
 
 
   return 0;
