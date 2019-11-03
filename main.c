@@ -12,7 +12,7 @@ int main(void)
   struct song_node *p0 = NULL;
   char *songname, *artistname;
   char *songnames[10] = {"22", "i want it that way", "photograph", "enchanted", "no surprise", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
-  char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor Swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
+  char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
 
   printbar();
   printf("LINKED LIST TESTS: \n");
@@ -90,14 +90,43 @@ int main(void)
   print_list(p0);
   printf("Address should not be different.\n");
 
+// ================================================================================================
   printbar();
   printf("MUSIC LIBRARY TESTS\n");
   printbar();
 
-  struct table *t0 = NULL;
-  printf("Testing print_letterlist on NULL library: \n");
-  print_letterlist(t0, 'a');
-  printf("Testing print_lib on NULL library: \n");
-  print_lib(t0);
+  struct song_node *table[27];
+  //table = malloc(27 * sizeof(struct song_node *));
+  for (i = 0; i < 27; i++){
+    table[i] = calloc(1, sizeof(struct song_node));
+  }
+  struct song_node *t0;
+  // printf("table[0]: %p\n", table[0]);
+  // printf("table: %p\n", table);
+  // printf("Testing print_letterlist on NULL library: \n");
+  // print_letterlist(table, 'a');
+  // printf("Testing print_lib on NULL library: \n");
+  // print_lib(table);
 
+  char *newsongnames[10] = {"all too well", "here's to never growing up", "i'm with you", "enchanted", "complicated", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
+  char *newartistnames[10] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
+  printbar();
+  printf("Testing add_song (10 songs): \n");
+  for (i = 0; i < 10; i++){
+    songname = newsongnames[i];
+    artistname = newartistnames[i];
+    printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
+    add_song(table, songname, artistname);
+    print_lib(table);
+  }
+  // add_song(table, "all too well", "taylor swift");
+  // print_letterlist(table, 't');
+  // print_lib(table);
+  // add_song(table, "here's to never growing up", "avril lavigne");
+  // print_letterlist(table, 'a');
+  // print_lib(table);
+  // add_song(table, "complicated", "avril lavigne");
+  // print_lib(table);
+  // printf("table[0]: %p\n", table[0]);
+  // printf("table: %p\n", table);
 }
