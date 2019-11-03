@@ -1,5 +1,5 @@
 # compiler to use
-CC = cc
+CC = gcc
 
 # flags to pass compiler
 CFLAGS = -ggdb3 -std=c11
