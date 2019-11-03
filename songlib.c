@@ -32,7 +32,7 @@ void add_song(struct song_node * table[27], char *newname, char *newartist)
     }
   }
 //   insert_order(t->n[26], newname, newartist);
-  return table;
+  return;
 }
 // // Add song nodes
 

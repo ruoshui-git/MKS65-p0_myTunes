@@ -117,7 +117,7 @@ int main(void)
     artistname = newartistnames[i];
     printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
     add_song(table, songname, artistname);
-    print_lib(table);
+    print_letterlist(table, artistname[0]);
   }
   // add_song(table, "all too well", "taylor swift");
   // print_letterlist(table, 't');
