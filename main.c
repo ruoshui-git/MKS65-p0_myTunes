@@ -48,17 +48,17 @@ int main(void)
   puts("Testing get_by_artist_song: ");
 
   puts("Get first song:");
-  p1 = get_by_artist_song(p0, artistnames[9], songnames[9]);
+  p1 = get_by_artist_song(p0, songnames[9], artistnames[9]);
   print_result(p0 == p1 && strncmp(p1->name, songnames[9], MAX_NAME_LEN) == 0 && strncmp(p1->artist, artistnames[9], MAX_NAME_LEN) == 0);
 
   puts("Get last song:");
-  p1 = get_by_artist_song(p0, artistnames[0], songnames[0]);
+  p1 = get_by_artist_song(p0, songnames[0], artistnames[0]);
   print_result(strncmp(p1->name, songnames[0], MAX_NAME_LEN) == 0 && strncmp(p1->artist, artistnames[0], MAX_NAME_LEN) == 0);
 
   char artist[100] = "ed sheeran";
   char song[100] = "photograph";
   printf("Get '%s' by '%s'\n", song, artist);
-  p1 = get_by_artist_song(p0, artist, song);
+  p1 = get_by_artist_song(p0, song, artist);
   print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
 
 
@@ -134,25 +134,29 @@ int main(void)
   // printf("Testing print_lib on NULL library: \n");
   // print_lib(table);
 
-  char *newsongnames[10] = {"all too well", "here's to never growing up", "i'm with you", "enchanted", "complicated", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
-  char *newartistnames[10] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
+  char *newsongnames[11] = {"all too well", "here's to never growing up", "i'm with you", "enchanted", "complicated", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen", "?insert random name?"};
+  char *newartistnames[11] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift", "?insert random name?"};
   printbar();
-  printf("Testing add_song (10 songs): \n");
-  for (i = 0; i < 10; i++){
+  printf("Testing add_song (11 songs): \n");
+  for (i = 0; i < 11; i++){
     songname = newsongnames[i];
     artistname = newartistnames[i];
     printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
     add_song(table, songname, artistname);
     print_letterlist(table, artistname[0]);
   }
-  // add_song(table, "all too well", "taylor swift");
-  // print_letterlist(table, 't');
-  // print_lib(table);
-  // add_song(table, "here's to never growing up", "avril lavigne");
-  // print_letterlist(table, 'a');
-  // print_lib(table);
-  // add_song(table, "complicated", "avril lavigne");
-  // print_lib(table);
-  // printf("table[0]: %p\n", table[0]);
-  // printf("table: %p\n", table);
+  printbar();
+  printf("Testing search_song: \n");
+  printf("Looking for 'complicated' by 'avril lavigne'...\n");
+  p0 = search_song(table, "complicated", "avril lavigne");
+  printf("\t'%s' by '%s' found at %p\n", p0->name, p0->artist, p0);
+
+  printf("Looking for '?insert random name?' by '?insert random name?'...\n");
+  p0 = search_song(table, "?insert random name?", "?insert random name?");
+  printf("\t'%s' by '%s' found at %p\n", p0->name, p0->artist, p0);
+
+  printf("Looking for 'nonexistent' by 'taylor swift'...\n");
+  p0 = search_song(table, "nonexistent", "taylor swift");
+  printf("\tShould be NULL: %p", p0);
+
 }

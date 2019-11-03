@@ -21,6 +21,7 @@ void add_song(struct song_node * table[27], char *newname, char *newartist)
     if (temp != p0[0]){
        table[0] = temp;
     }
+    return;
     // printf("new address of t[0]: %p\n", table[0]);
   }
   //printf("%c\n", newartist[0]);
@@ -29,14 +30,28 @@ void add_song(struct song_node * table[27], char *newname, char *newartist)
       //printf("%c || %d\n", c, c - 97);
       p0 = &table[c-97]; //points to beginning of the correct letter list
       table[c-97] = insert_front(p0[0], newname, newartist); //insert at correct letter list
+      return;
     }
   }
-//   insert_order(t->n[26], newname, newartist);
+  p0 = &table[26];
+  table[26] = insert_front(p0[0], newname, newartist);
   return;
 }
 // // Add song nodes
 
-// struct song_node * search_song(struct song_node *t char *newname, char *newartist);
+struct song_node * search_song(struct song_node *table[27], char *newname, char *newartist)
+{
+  int i = newartist[0] - 97;
+  struct song_node **p0;
+  if (i < 26 && i >= 0){
+    p0 = &table[i]; //points to beginning of the correct letter list
+    // return get_by_artist_song(table[i], newname, newartist);
+  }
+  else{
+    p0 = &table[26];
+  }
+  return get_by_artist_song(p0[0], newname, newartist);
+}
 // // Search for a song given song and artist name (return a pointer).
 // struct song_node * search_artist(strusong_node *t, char *newartist);
 // // Search for an artist.
