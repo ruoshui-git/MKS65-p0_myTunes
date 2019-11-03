@@ -1,34 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
+#include <time.h>
 #include "llist.h"
+#include "songlib.h"
 
-void printbar(void)
-{
-  puts("==================================================");
-}
 void print_result(int cond)
 {
   printf("result: %s\n", cond ? "passed" : "failed");
 }
-
+void printbar()
+{
+  printf("\n===================================================================\n\n");
+}
 int main(void)
 {
-  struct node *p0 = NULL;
+  struct song_node *p0 = NULL;
   char *songname, *artistname;
   char *songnames[10] = {"22", "i want it that way", "photograph", "enchanted", "no surprise", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
   char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor Swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
 
   printbar();
-  printf("Begin testing for linkedlist: \n");
+  printf("LINKED LIST TESTS: \n");
   printbar();
   printf("Printing empty list (NULL): \n");
   print_list(p0);
 
   printbar();
   printf("Begin testing insert_front (Adding 10 songs):\n");
-  printbar();
   int i;
   for (i = 0; i < 10; i++)
   {
@@ -58,10 +56,22 @@ int main(void)
   printf("Get '%s' by '%s'\n", song, artist);
   p1 = get_by_artist_song(p0, artist, song);
   print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
+  struct song_node *p1 = NULL;
+  struct song_node *p2 = NULL;
 
   printbar();
+  printf("Testing first_song_by:\n");
+  p2 = first_song_by(p1, "taylor swift");
+  printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
+  p2 = first_song_by(p0, "daughtry");
+  printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
+  p2 = first_song_by(p0, "taylor swift");
+  printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
+  p2 = first_song_by(p0, "the fray");
+  printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
 
-  printf("\nTesting remove_node: \n");
+  printbar();
+  printf("Testing remove_song_node: \n");
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
   p0 = remove_node(p0, "overdose", "exo");
   print_list(p0);
@@ -82,17 +92,34 @@ int main(void)
   print_list(p0);
   printf("Address should be different.\n\n");
 
-  printf("\nTesting free_list: \n");
+  printbar();
+  printf("Testing random_song:\n");
+  srand(time(NULL));
+  p2 = random_song(p0);
+  print_list(p2);
+
+  printbar();
+  printf("Testing free_list: \n");
 
   p0 = free_list(p0);
 
   printf("\nPrinting the freed p0 (should be NULL)\n");
   print_list(p0);
 
-  printf("\nRemoving 'try' by 'p!nk' from empty list: \n");
-  remove_node(p0, "try", "pink");
+  printbar();
+  printf("Testing remove_song_node on NULL list: \n");
+  printf("\nRemoving 'photograph' by 'ed sheeran' from NULL list: \n");
+  p0 = remove_song_node(p0, "photograph", "ed sheeran");
   print_list(p0);
   printf("Address should not be different.\n");
 
-  return 0;
+  printbar();
+  printf("MUSIC LIBRARY TESTS\n");
+  printbar();
+
+  struct table *t0 = NULL;
+  printf("Testing print_letterlist on NULL library: \n");
+  print_letterlist(t0, 'a');
+  printf("Testing print_lib on NULL library: \n");
+  print_lib(t0);
 }
