@@ -1,22 +1,24 @@
-struct song_node * table[27];
+struct table{
+  struct song_node *n[27];
+};
 
-struct song_node * add_song(struct song_node * n, char *newname, char *newartist);
+struct song_node * add_song(struct table *t, char *newname, char *newartist);
 // Add song nodes
-struct song_node * search_song(struct song_node * n, char *newname, char *newartist);
+struct song_node * search_song(struct table *t, char *newname, char *newartist);
 // Search for a song given song and artist name (return a pointer).
-struct song_node * search_artist(struct song_node *n, char *newartist);
+struct song_node * search_artist(struct table *t, char *newartist);
 // Search for an artist.
-void print_letterlist(struct song_node *n, char c);
+void print_letterlist(struct table *t, char c);
 // Print out all the entries under a certain letter.
-void print_artistlist(struct song_node *n, char *newartist)
+void print_artistlist(struct table *t, char *newartist);
 // Print out all the songs of a certain artist
 
 // Ruoshui's functions
-void print_lib(struct song_node *n);
+void print_lib(struct table *t);
 // Print out the entire library.
-void shuffle(struct song_node *n);
+void shuffle(struct table *t);
 // Shuffle - print out a series of randomly chosen songs.
-struct song_node * delete(struct song_node *n, char *delname, char *delartist);
+struct song_node * delete(struct table *t, char *delname, char *delartist);
 // Delete a song
-struct song_node * clearlib(struct song_node *n);
+struct song_node * clearlib(struct table *t);
 // Clear the library.
