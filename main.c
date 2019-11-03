@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "llist.h"
+#include "songlib.h"
 
 void printbar(){
-  printf("\n==============================================================\n");
+  printf("\n===================================================================\n\n");
 }
 int main(void)
 {
@@ -14,10 +15,10 @@ int main(void)
   char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor Swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
 
   printbar();
-  printf("Begin testing for linkedlist: \n");
+  printf("LINKED LIST TESTS: \n");
+  printbar();
   printf("Printing empty list (NULL): \n");
   print_list(p0);
-  // printbar();
 
   printbar();
   printf("Begin testing insert_front (Adding 10 songs):\n");
@@ -31,7 +32,6 @@ int main(void)
     p0 = insert_front( p0, songname, artistname );
     print_list(p0);
   }
-  // printbar();
 
   struct song_node *p1 = NULL;
   struct song_node *p2 = NULL;
@@ -46,7 +46,6 @@ int main(void)
   printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
   p2 = first_song_by(p0, "the fray");
   printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
-  // printbar();
 
   printbar();
   printf("Testing remove_song_node: \n");
@@ -69,14 +68,12 @@ int main(void)
   p0=remove_song_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
   printf("Address should be different.\n\n");
-  // printbar();
 
   printbar();
   printf("Testing random_song:\n");
   srand(time(NULL));
   p2=random_song(p0);
   print_list(p2);
-  // printbar();
 
   printbar();
   printf("Testing free_list: \n");
@@ -86,12 +83,21 @@ int main(void)
   printf("\nPrinting the freed p0 (should be NULL)\n");
   print_list(p0);
 
-  printf("\nRemoving 'photograph' by 'ed sheeran' from empty list: \n");
+  printbar();
+  printf("Testing remove_song_node on NULL list: \n");
+  printf("\nRemoving 'photograph' by 'ed sheeran' from NULL list: \n");
   p0=remove_song_node(p0, "photograph", "ed sheeran");
   print_list(p0);
   printf("Address should not be different.\n");
-  // printbar();
 
+  printbar();
+  printf("MUSIC LIBRARY TESTS\n");
+  printbar();
 
-  return 0;
+  struct table *t0 = NULL;
+  printf("Testing print_letterlist on NULL library: \n");
+  print_letterlist(t0, 'a');
+  printf("Testing print_lib on NULL library: \n");
+  print_lib(t0);
+
 }
