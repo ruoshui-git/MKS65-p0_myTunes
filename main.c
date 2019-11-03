@@ -42,6 +42,7 @@ int main(void)
     // printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
     p0 = insert_front(p0, songname, artistname);
     print_list(p0);
+    // printf("Length of list: %d\n", p0->length);
   }
 
   printbar();
@@ -59,7 +60,8 @@ int main(void)
   char song[100] = "photograph";
   printf("Get '%s' by '%s'\n", song, artist);
   p1 = get_by_artist_song(p0, song, artist);
-  print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
+  // printf("\t'%s' by '%s' found at %p\n", p1->name, p1->artist, p1);
+  print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN) == 0);
 
 
   printbar();
@@ -78,27 +80,32 @@ int main(void)
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
   p0 = remove_song_node(p0, "overdose", "exo");
   print_list(p0);
+  // printf("Length of list: %d\n", p0->length);
   printf("Address should not be different.\n\n");
+
 
   printf("Removing 'stay' by 'blackpink' (not in list)\n");
   p0 = remove_song_node(p0, "stay", "blackpink");
   print_list(p0);
+  // printf("Length of list: %d\n", p0->length);
   printf("Address should not be different, neither should the list.\n\n");
 
   printf("Removing '22' by 'taylor swift' (end of list): \n");
   p0 = remove_song_node(p0, "22", "taylor swift");
   print_list(p0);
+  // printf("Length of list: %d\n", p0->length);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'hey stephen' by 'taylor swift' (beginning of list)\n");
   p0 = remove_song_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
+  // printf("Length of list: %d\n", p0->length);
   printf("Address should be different.\n\n");
 
   printbar();
   printf("Testing random_song:\n");
   srand(time(NULL));
-  p2 = random_song(p0);
+  p2 = random_song(p0, p0->length);
   print_list(p2);
 
   printbar();
@@ -134,10 +141,11 @@ int main(void)
   // printf("Testing print_lib on NULL library: \n");
   // print_lib(table);
 
-  char *newsongnames[11] = {"all too well", "here's to never growing up", "i'm with you", "enchanted", "complicated", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen", "?insert random name?"};
-  char *newartistnames[11] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift", "?insert random name?"};
-  printbar();
-  printf("Testing add_song (11 songs): \n");
+  char *newsongnames[12] = {"all too well", "here's to never growing up", "i'm with you", "enchanted", "complicated", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen", "?insert random name?", "drops of jupiter"};
+  char *newartistnames[12] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift", "?insert random name?", "train"};
+
+
+  printf("Testing add_song (12 songs): \n");
   for (i = 0; i < 11; i++){
     songname = newsongnames[i];
     artistname = newartistnames[i];
@@ -145,6 +153,10 @@ int main(void)
     add_song(table, songname, artistname);
     print_letterlist(table, artistname[0]);
   }
+  printbar();
+  printf("Testing print_lib\n");
+  print_lib(table);
+
   printbar();
   printf("Testing search_song: \n");
   printf("Looking for 'complicated' by 'avril lavigne'...\n");

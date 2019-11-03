@@ -33,6 +33,7 @@ void add_song(struct song_node * table[27], char *newname, char *newartist)
       return;
     }
   }
+  // miscellaneous character
   p0 = &table[26];
   table[26] = insert_front(p0[0], newname, newartist);
   return;
@@ -53,26 +54,51 @@ struct song_node * search_song(struct song_node *table[27], char *newname, char 
   return get_by_artist_song(p0[0], newname, newartist);
 }
 // // Search for a song given song and artist name (return a pointer).
-// struct song_node * search_artist(strusong_node *t, char *newartist);
-// // Search for an artist.
+
+struct song_node * search_artist(struct song_node *table[27], char *newartist)
+{
+  int i = newartist[0] - 97;
+  struct song_node **p0;
+  if (i < 26 && i >= 0){
+    p0 = &table[i];
+  }
+  else{
+    p0 = &table[26];
+  }
+  return first_song_by(p0[0], newartist);
+}
+// Search for an artist.
 void print_letterlist(struct song_node *t[27], char c){
-  printf("Printing all songs under '%c': \n", c);
   if (t == NULL){
     printf("No songs found.\n");
     return;
   }
   struct song_node *p0;
   if (c >= 'a' && c <= 'z'){
-    printf("%c: \n", c);
+    // printf("%c: \n", c);
     p0 = t[c-97];
   }
   else {
-    printf("?: \n");
+    // printf("?: \n");
     p0 = t[26];
   }
-  print_list(p0);
+  if (p0->length != 0)
+  {
+    if (c >= 'a' && c <= 'z'){
+      printf("Printing all songs under '%c': \n", c);
+    }
+    else{
+      printf("Printing all songs under '?'\n");
+    }
+    // printf("Length of p0: %d\n", p0->length);
+    print_list(p0);
+  }
+  // else{
+  //   printf("No songs found.\n");
+  // }
 }
 // Print out all the entries under a certain letter.
+
 // void print_artistlist(strucsong_node *t, char *newartist);
 // Print out all the songs of a certain artist
 void print_lib(struct song_node *t[27]){
