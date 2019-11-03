@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "llist.h"
 #include "songlib.h"
 
@@ -14,7 +15,11 @@ void printbar()
 }
 int main(void)
 {
-  struct song_node *p0 = NULL;
+  struct song_node * p0 = NULL;
+  struct song_node * p1 = NULL;
+  struct song_node * p2 = NULL;
+
+
   char *songname, *artistname;
   char *songnames[10] = {"22", "i want it that way", "photograph", "enchanted", "no surprise", "overdose", "jump and fall", "you belong with me", "eyes open", "hey stephen"};
   char *artistnames[10] = {"taylor swift", "backstreet boys", "ed sheeran", "taylor Swift", "daughtry", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift"};
@@ -42,7 +47,6 @@ int main(void)
   printbar();
   puts("Testing get_by_artist_song: ");
 
-  struct node *p1 = NULL;
   puts("Get first song:");
   p1 = get_by_artist_song(p0, artistnames[9], songnames[9]);
   print_result(p0 == p1 && strncmp(p1->name, songnames[9], MAX_NAME_LEN) == 0 && strncmp(p1->artist, artistnames[9], MAX_NAME_LEN) == 0);
@@ -56,8 +60,7 @@ int main(void)
   printf("Get '%s' by '%s'\n", song, artist);
   p1 = get_by_artist_song(p0, artist, song);
   print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
-  struct song_node *p1 = NULL;
-  struct song_node *p2 = NULL;
+
 
   printbar();
   printf("Testing first_song_by:\n");
@@ -73,22 +76,22 @@ int main(void)
   printbar();
   printf("Testing remove_song_node: \n");
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
-  p0 = remove_node(p0, "overdose", "exo");
+  p0 = remove_song_node(p0, "overdose", "exo");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'stay' by 'blackpink' (not in list)\n");
-  p0 = remove_node(p0, "stay", "blackpink");
+  p0 = remove_song_node(p0, "stay", "blackpink");
   print_list(p0);
   printf("Address should not be different, neither should the list.\n\n");
 
   printf("Removing '22' by 'taylor swift' (end of list): \n");
-  p0 = remove_node(p0, "22", "taylor swift");
+  p0 = remove_song_node(p0, "22", "taylor swift");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'hey stephen' by 'taylor swift' (beginning of list)\n");
-  p0 = remove_node(p0, "hey stephen", "taylor swift");
+  p0 = remove_song_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
   printf("Address should be different.\n\n");
 
