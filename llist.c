@@ -12,17 +12,19 @@
 // Create the following functions:
 void print_list(struct song_node * n){
   // printf("Printing playlist at address %p: \n  ", n);
+  if (n==NULL || n->length == 0)
+  {
+    printf("No songs in playlist.\n");
+    return;
+  }
   struct song_node *current = n;
-  int i = 0;
-  while (current)
+  int i = n->length;
+  // printf("n's length: %d\n", i);
+  while (i)
   {
     printf("%s: %s | ", current->artist, current->name);
     current = current->next;
-    i++;
-  }
-  if (i == 0)
-  {
-    printf("No songs in playlist.");
+    i = i - 1;
   }
   printf("\n");
 }
@@ -44,11 +46,16 @@ struct song_node *insert_front(struct song_node *n, char *newname, char *newarti
   // Make sure that there's enough memory to insert_front with malloc
 
   // printf("\nAdding song '%s' by '%s' at %p:\n", newname, newartist, n );
-
   struct song_node *current = malloc(sizeof(struct song_node));
   strcpy(current->name, newname);
   strcpy(current->artist, newartist);
   current->next = n;
+  if (n){
+    current->length=n->length + 1;
+  }
+  else{
+    current->length = 1;
+  }
   return current;
 }
 // Should take a pointer to the existing list and the data to be added, create a new song_node and put it at the beginning of the list.
@@ -63,8 +70,9 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
   strcpy(cur->name, name);
   strcpy(cur->artist, artist);
   cur->next = NULL;
-  if (!n)
+  if (!n) // first song_node being added
   {
+    cur->length = 1;
     return cur;
   }
 
@@ -139,6 +147,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
 struct song_node *free_list(struct song_node *n)
 {
   struct song_node *current = n;
+  n->length = 0;
   while (n)
   {
     printf("Freeing '%s' by '%s'...\n", n->name, n->artist);
@@ -156,6 +165,8 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
   {
     return front;
   }
+  int size = front->length;
+  front->length = front->length - 1;
   struct song_node *current = front;
   struct song_node *nextN = front->next;
   if (current == front && strcmp(current->name, rname) == 0 && strcmp(current->artist, rartist) == 0)
@@ -166,15 +177,23 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
   }
   while (nextN)
   {
+    current->length = nextN->length;    // reduce the length
     if (strcmp(nextN->name, rname) == 0 && strcmp(current->artist, rartist))
     {
-      current->next = nextN->next; // set nextN's next to current's next
-      free(nextN);                 // and free nextN
+      current->next = nextN->next;      // set nextN's next to current's next
+      free(nextN);                      // and free nextN
       return front;
     }
     current = nextN;
     nextN = nextN->next;
     //keep iterating through while loop
+  }
+  // not found, fix all the lengths
+  current = front;
+  while (size){
+    current->length = size;
+    size = size - 1;
+    current = current->next;
   }
   return front;
 }
@@ -223,25 +242,25 @@ struct song_node *first_song_by(struct song_node *n, char *newartist)
   }
   return NULL;
 }
-struct song_node *random_song(struct song_node *n)
+struct song_node *random_song(struct song_node *n, int size)
 {
   if (n == NULL)
   {
     return NULL;
   }
   struct song_node *current = n;
-  int i = 0;
-  //find length of list
-  while (current)
-  {
-    current = current->next;
-    i++;
-  }
-  int x = rand() * 1000 % i; //mod by size of song list
+  int i;
+  // //find length of list
+  // while (current)
+  // {
+  //   current = current->next;
+  //   i++;
+  // }
+  int x = rand() * 1000 % size; //mod by size of song list
   //start up loop again
   current = n;
   i = 0; //use i as counter
-  while (i < x)
+  while (size < x)
   {
     current = current->next;
     i++;
