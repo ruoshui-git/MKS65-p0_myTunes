@@ -115,10 +115,10 @@ struct node * insert(struct node * n, char * name, char * artist)
                 return n;
             }
         }
-        // by this point, we should be at the end of the list
-        prev->next = cur;
-        return n;
     }
+    // by this point, we should be at the end of the list
+    prev->next = cur;
+    return n;
 }
 
 // Should take a pointer to a list as a parameter and then go through the entire list freeing each node and return a pointer to the beginning of the list (which should be NULL by then).
@@ -147,7 +147,7 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
       return nextN;
     }
     while(nextN){
-    if (strcmp(nextN->name, rname)==0 && current->artist){
+    if (strcmp(nextN->name, rname)==0 && strcmp(current->artist, rartist)){
           current->next = nextN->next; // set nextN's next to current's next
           free(nextN); // and free nextN
           return front;
@@ -160,7 +160,7 @@ struct node * remove_node(struct node *front, char *rname, char *rartist){
 }
 
 /** find and return a pointer to a node based on artist and song name */
-struct node * get_by_artist_song(struct node * front, char * song, char * artist)
+struct node * get_by_artist_song(struct node * front, char * artist, char * song)
 {
     struct node * trav = front;
     while (trav)

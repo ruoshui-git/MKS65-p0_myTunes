@@ -4,14 +4,13 @@
 
 #include "llist.h"
 
-
 void printbar(void)
 {
   puts("==================================================");
 }
 void print_result(int cond)
 {
-    printf("result: %s\n", cond? "passed" : "failed");
+  printf("result: %s\n", cond ? "passed" : "failed");
 }
 
 int main(void)
@@ -31,31 +30,32 @@ int main(void)
   printf("Begin testing insert_front (Adding 10 songs):\n");
   printbar();
   int i;
-  for (i = 0; i < 10; i++){
+  for (i = 0; i < 10; i++)
+  {
     printf("%d\n", i);
     // printf("Adding song#%d:\n\n", i);
     songname = songnames[i];
     artistname = artistnames[i];
     // printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
-    p0 = insert_front( p0, songname, artistname );
+    p0 = insert_front(p0, songname, artistname);
     print_list(p0);
   }
 
   printbar();
   puts("Testing get_by_artist_song: ");
-  
-  struct node * p1 = NULL;
+
+  struct node *p1 = NULL;
   puts("Get first song:");
-  p1 = get_by_artist_song(p0, "taylor swift", "22");
-  print_result(p0==p1);
+  p1 = get_by_artist_song(p0, artistnames[9], songnames[9]);
+  print_result(p0 == p1 && strncmp(p1->name, songnames[9], MAX_NAME_LEN) == 0 && strncmp(p1->artist, artistnames[9], MAX_NAME_LEN) == 0);
 
   puts("Get last song:");
-  p1 = get_by_artist_song(p0, "taylor swift", "hey stephen");
-  print_result(strncmp(p1->name, "taylor swift", MAX_NAME_LEN) == 0 && strncmp(p1->artist, "hey stephen", MAX_NAME_LEN) == 0);
+  p1 = get_by_artist_song(p0, artistnames[0], songnames[0]);
+  print_result(strncmp(p1->name, songnames[0], MAX_NAME_LEN) == 0 && strncmp(p1->artist, artistnames[0], MAX_NAME_LEN) == 0);
 
   char artist[100] = "ed sheeran";
   char song[100] = "photograph";
-  printf("Get %s by %s\n", song, artist);
+  printf("Get '%s' by '%s'\n", song, artist);
   p1 = get_by_artist_song(p0, artist, song);
   print_result(strncmp(p1->name, song, MAX_NAME_LEN) == 0 && strncmp(p1->artist, artist, MAX_NAME_LEN));
 
@@ -63,22 +63,22 @@ int main(void)
 
   printf("\nTesting remove_node: \n");
   printf("Removing 'overdose' by 'exo' (middle of list): \n");
-  p0=remove_node(p0, "overdose", "exo");
+  p0 = remove_node(p0, "overdose", "exo");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'stay' by 'blackpink' (not in list)\n");
-  p0=remove_node(p0, "stay", "blackpink");
+  p0 = remove_node(p0, "stay", "blackpink");
   print_list(p0);
   printf("Address should not be different, neither should the list.\n\n");
 
   printf("Removing '22' by 'taylor swift' (end of list): \n");
-  p0=remove_node(p0, "22", "taylor swift");
+  p0 = remove_node(p0, "22", "taylor swift");
   print_list(p0);
   printf("Address should not be different.\n\n");
 
   printf("Removing 'hey stephen' by 'taylor swift' (beginning of list)\n");
-  p0=remove_node(p0, "hey stephen", "taylor swift");
+  p0 = remove_node(p0, "hey stephen", "taylor swift");
   print_list(p0);
   printf("Address should be different.\n\n");
 
