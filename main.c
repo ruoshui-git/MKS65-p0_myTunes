@@ -35,11 +35,11 @@ int main(void)
   int i;
   for (i = 0; i < 10; i++)
   {
-    printf("%d\n", i);
+    // printf("%d\n", i);
     // printf("Adding song#%d:\n\n", i);
     songname = songnames[i];
     artistname = artistnames[i];
-    // printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
+    printf("\nAdding song '%s' by '%s' at %p: \n\t", songname, artistname, p0 );
     p0 = insert_front(p0, songname, artistname);
     print_list(p0);
     // printf("Length of list: %d\n", p0->length);
@@ -68,12 +68,36 @@ int main(void)
   printf("Testing first_song_by:\n");
   p2 = first_song_by(p1, "taylor swift");
   printf("Null playlist: First song by 'taylor swift' starting from %p: %p\n", p1, p2);
+  if (p2){
+    printf("Artist found!\n %s : %s |\n", p2->artist, p2->name);
+  }
+  else{
+    printf("Artist not found :(\n");
+  }
   p2 = first_song_by(p0, "daughtry");
   printf("In playlist: First song by 'daughtry' starting from %p: %p\n", p0, p2);
+  if (p2){
+    printf("Artist found!\n %s : %s |\n", p2->artist, p2->name);
+  }
+  else{
+    printf("Artist not found :(\n");
+  }
   p2 = first_song_by(p0, "taylor swift");
   printf("In playlist + multiple songs by artist: First song by 'taylor swift' starting from %p: %p\n", p0, p2);
+  if (p2){
+    printf("Artist found!\n %s : %s |\n", p2->artist, p2->name);
+  }
+  else{
+    printf("Artist not found :(\n");
+  }
   p2 = first_song_by(p0, "the fray");
   printf("Not in playlist: First song by 'the fray' starting from %p: %p\n", p0, p2);
+  if (p2){
+    printf("Artist found!\n %s : %s |\n", p2->artist, p2->name);
+  }
+  else{
+    printf("Artist not found :(\n");
+  }
 
   printbar();
   printf("Testing remove_song_node: \n");
@@ -105,8 +129,11 @@ int main(void)
   printbar();
   printf("Testing random_song:\n");
   srand(time(NULL));
-  p2 = random_song(p0, p0->length);
-  print_list(p2);
+  for (i = 0; i < 5; i++){
+    // printf("Length of p0: %d\n", p0->length);
+    p2 = random_song(p0, p0->length);
+    print_song_node(p2);
+  }
 
   printbar();
   printf("Testing free_list: \n");
@@ -145,8 +172,8 @@ int main(void)
   char *newartistnames[12] = {"taylor swift", "avril lavigne", "avril lavigne", "taylor swift", "avril lavigne", "exo", "taylor swift", "taylor swift", "taylor swift", "taylor swift", "?insert random name?", "train"};
 
 
-  printf("Testing add_song (12 songs): \n");
-  for (i = 0; i < 11; i++){
+  printf("Testing add_song (12 songs) and print_letterlist: \n");
+  for (i = 0; i < 12; i++){
     songname = newsongnames[i];
     artistname = newartistnames[i];
     printf("\nAdding song '%s' by '%s' at %p: \n", songname, artistname, p0 );
@@ -171,4 +198,16 @@ int main(void)
   p0 = search_song(table, "nonexistent", "taylor swift");
   printf("\tShould be NULL: %p", p0);
 
+  printbar();
+  printf("Testing print_artistlist: \n");
+  printf("Finding all songs by 'taylor swift'... \n");
+  print_artistlist(table, "taylor swift");
+  printf("Finding all songs by 'p!nk' (not in playlist)... \n");
+  print_artistlist(table, "p!nk");
+  printf("Finding all songs by '?' (not in playlist)\n");
+  print_artistlist(table, "?");
+  printf("Finding all songs by 'train'...\n");
+  print_artistlist(table, "train");
+  printf("Finding all songs by 'avril lavigne'\n");
+  print_artistlist(table, "avril lavigne");
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "llist.h"
 #include "songlib.h"
 // struct song_node * table[27];
@@ -99,8 +100,39 @@ void print_letterlist(struct song_node *t[27], char c){
 }
 // Print out all the entries under a certain letter.
 
-// void print_artistlist(strucsong_node *t, char *newartist);
+void print_artistlist(struct song_node *table[27], char *newartist)
+{
+  int i = newartist[0] - 97;
+  struct song_node **p0;
+  if (i < 26 && i >= 0){
+    p0 = &table[i]; //points to beginning of the correct letter list
+    // return get_by_artist_song(table[i], newname, newartist);
+  }
+  else{
+    p0 = &table[26];
+  }
+  struct song_node *temp = first_song_by(p0[0], newartist);
+  // char * str = "\t";
+  if (temp){
+    printf("Artist '%s' found!\n\t", newartist);
+  }
+  else{
+    printf("Artist '%s' not found :(\n", newartist);
+    return;
+  }
+  while (temp != NULL){
+    // str = strcat(str, temp->artist);
+    // str = strcat(str, ": ");
+    // str = strcat(str, temp->name);
+    // str = strcat(str, " |");
+    printf("%s: %s | ", temp->artist, temp->name);
+    // print_song_node(temp);
+    temp = first_song_by(temp->next, newartist);
+  }
+  printf("\n");
+}
 // Print out all the songs of a certain artist
+
 void print_lib(struct song_node *t[27]){
   printf("Printing whole library: \n");
   if (t == NULL){
