@@ -180,7 +180,7 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
 }
 
 /** find and return a pointer to a song_node based on artist and song name */
-struct song_node *get_by_artist_song(struct song_node *front, char *artist, char *song)
+struct song_node *get_by_artist_song(struct song_node *front, char *song, char *artist)
 {
   struct song_node *trav = front;
   while (trav)
