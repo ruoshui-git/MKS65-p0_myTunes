@@ -11,7 +11,7 @@
 
 // Create the following functions:
 void print_list(struct song_node * n){
-  printf("Printing playlist at address %p: \n  ", n);
+  // printf("Printing playlist at address %p: \n  ", n);
   struct song_node *current = n;
   int i = 0;
   while (current){
