@@ -40,6 +40,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
     if (cmp > 0)
     {
       // song_node should be inserted after this song_node
+      trav->length++;
       prev = trav;
       trav = trav->next;
     }
@@ -47,6 +48,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
     {
       // song_node should be inserted right here
       cur->next = trav;
+      cur->length = trav->length + 1;
       if (prev)
       {
         prev->next = cur;
@@ -68,12 +70,14 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
 
       if (cmp > 0)
       {
+        trav->length++;
         prev = trav;
         trav = trav->next;
       }
       else if (cmp < 0)
       {
         cur->next = trav;
+        cur->length = trav->length + 1;
         if (prev)
         {
           prev->next = cur;
@@ -90,6 +94,13 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
       else
       {
         // song and artist names are equal, don't store
+        // fix the length fields
+        struct song_node * tmp = n;
+        while (tmp != trav)
+        {
+          tmp->length--;
+          tmp = tmp->next;
+        }
         return n;
       }
     }
@@ -203,7 +214,7 @@ void print_list_without_len(struct song_node * current)
     printf("%s: %s | ", current->artist, current->name);
     current = current->next;
   }
-  puts("");
+  printf("\n");
 }
 
 void print_song_node(struct song_node *n)

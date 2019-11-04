@@ -38,12 +38,13 @@ void printbar()
 int main(void)
 {
 
+  const int test_print_list = 0;
   const int test_get_by_artist_song = 0;
   const int test_first_song_by = 0;
   const int test_remove_song_node = 0;
   const int test_random_song = 0;
   const int test_free_list = 0;
-  const int test_insert_order = 0;
+  const int test_insert_order = 1;
 
   const int print_when_add = 0;
 
@@ -57,13 +58,20 @@ int main(void)
 
   printbar();
   printf("LINKED LIST TESTS: \n");
-  printbar();
 
-  printf("Printing empty list (NULL): \n");
-  print_list(p0);
+  if (test_print_list)
+  {
+    printbar();
+    printf("Printing empty list (NULL): \n");
+    print_list(p0);
+  }
 
-  printbar();
-  printf("Begin testing insert_front (Adding 10 songs):\n");
+  if (print_when_add)
+  {
+    printbar();
+    printf("Begin testing insert_front (Adding 10 songs):\n");
+  }
+
   int i;
   for (i = 0; i < 10; i++)
   {
@@ -273,6 +281,7 @@ int main(void)
     p0 = insert_order(p0, songnames[i], artistnames[i]);
     p1 = get_by_index(p0, 4);
     print_list_without_len(p0);
+    print_list(p0);
     print_result(strcmp(p1->name, songnames[i]) == 0 && strcmp(p1->artist, artistnames[i]) == 0);
 
     puts("Test ordering by song: insert before (in the middle of the list)");
@@ -280,6 +289,7 @@ int main(void)
     p0 = insert_order(p0, songnames[i], artistnames[i]);
     p1 = get_by_index(p0, 3);
     print_list_without_len(p0);
+    print_list(p0);
     print_result(strcmp(p1->name, songnames[i]) == 0 && strcmp(p1->artist, artistnames[i]) == 0);
 
     puts("Insert duplicates:");
@@ -288,9 +298,12 @@ int main(void)
     print_list_without_len(p0);
     p0 = insert_order(p0, songnames[i], artistnames[i]);
     print_list_without_len(p0);
+    printf("\n");
+    puts("see if length is working:");
+    print_list(p0);
   }
 
-  /*
+  
 // ================================================================================================
   printbar();
   printf("MUSIC LIBRARY TESTS\n");
@@ -352,5 +365,5 @@ int main(void)
   printf("Finding all songs by 'avril lavigne'\n");
   print_artistlist(table, "avril lavigne");
 
-  */
+  
 }
