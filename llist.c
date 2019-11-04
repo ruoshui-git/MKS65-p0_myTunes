@@ -20,8 +20,8 @@
 struct song_node *insert_order(struct song_node *n, char *name, char *artist)
 {
   struct song_node *cur = malloc(sizeof(struct song_node));
-  strcpy(cur->name, name);
-  strcpy(cur->artist, artist);
+  strncpy(cur->name, name, MAX_NAME_LEN);
+  strncpy(cur->artist, artist, MAX_NAME_LEN);
   cur->next = NULL;
   if (!n) // first song_node being added
   {
@@ -54,6 +54,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
       else
       {
         // list head is changed, so point to new head
+        cur->next = n;
         n = cur;
       }
 
@@ -80,6 +81,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
         else
         {
           // list head is changed, so point to new head
+          cur = n->next;
           n = cur;
         }
 
@@ -194,6 +196,16 @@ void print_list(struct song_node * n){
 }
 // Should take a pointer to a song_node struct and print out all of the data in the list
 
+void print_list_without_len(struct song_node * current)
+{
+  while (current)
+  {
+    printf("%s: %s | ", current->artist, current->name);
+    current = current->next;
+  }
+  puts("");
+}
+
 void print_song_node(struct song_node *n)
 {
   // printf("Printing song_node at address %p\n", n);
@@ -271,3 +283,14 @@ struct song_node *random_song(struct song_node *n, int size)
   return current;
 }
 // Return a pointer to random element in the list.
+
+struct song_node * get_by_index(struct song_node * n, int i)
+{
+  struct song_node * trav = n;
+  int c;
+  for (c = 0; c < i; c++)
+  {
+    trav = trav->next;
+  }
+  return trav;
+}

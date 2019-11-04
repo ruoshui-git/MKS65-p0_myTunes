@@ -21,3 +21,8 @@ struct song_node * random_song(struct song_node *n, int size);
 // new
 struct song_node * get_by_artist_song(struct song_node *front, char *song, char *artist);
 struct song_node * insert(struct song_node * n, char * name, char * artist);
+
+// helper
+
+struct song_node * get_by_index(struct song_node * n, int i);
+void print_list_without_len(struct song_node * current);
