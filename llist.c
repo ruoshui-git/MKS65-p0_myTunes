@@ -23,16 +23,63 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
   strncpy(cur->name, name, MAX_NAME_LEN);
   strncpy(cur->artist, artist, MAX_NAME_LEN);
   cur->next = NULL;
+  cur->length = 1;
   if (!n) // first song_node being added
   {
-    cur->length = 1;
     return cur;
   }
 
   struct song_node *trav = n;
-  struct song_node *prev = NULL;
+  struct song_node *prev = n;
 
   while (trav)
+  {
+    int cmp = songcmp(artist, trav->artist, name, trav->name);
+    if (cmp > 0)
+    {
+      // song_node should be inserted after this song_node
+      trav->length++;
+      prev = trav;
+      trav = trav->next;
+    }
+    else if (cmp < 0)
+    {
+      // song_node should be inserted right here
+      cur->next = trav;
+      cur->length = trav->length + 1;
+      if (prev != n)
+      {
+        prev->next = cur;
+      }
+      else
+      {
+        // list head is changed, so point to new head
+        cur->next = n;
+        n = cur;
+      }
+
+      // done inserting
+      return n;
+    }
+    else
+    {
+      // song and artist names are equal, don't store
+      // fix the length fields
+      struct song_node *tmp = n;
+      while (tmp != trav)
+      {
+        tmp->length--;
+        tmp = tmp->next;
+      }
+      return n;
+    }
+  }
+  // now we are at the end of the list
+  prev->next = cur;
+  return n;
+}
+/*
+{
   {
 
     int cmp = strncmp(artist, trav->artist, MAX_NAME_LEN);
@@ -49,7 +96,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
       // song_node should be inserted right here
       cur->next = trav;
       cur->length = trav->length + 1;
-      if (prev)
+      if (prev != n)
       {
         prev->next = cur;
       }
@@ -78,7 +125,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
       {
         cur->next = trav;
         cur->length = trav->length + 1;
-        if (prev)
+        if (prev != n)
         {
           prev->next = cur;
         }
@@ -95,7 +142,7 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
       {
         // song and artist names are equal, don't store
         // fix the length fields
-        struct song_node * tmp = n;
+        struct song_node *tmp = n;
         while (tmp != trav)
         {
           tmp->length--;
@@ -108,6 +155,22 @@ struct song_node *insert_order(struct song_node *n, char *name, char *artist)
   // by this point, we should be at the end of the list
   prev->next = cur;
   return n;
+}
+*/
+
+int songcmp(char *artist1, char *artist2, char *song1, char *song2)
+{
+  int cmp = strncmp(artist1, artist2, MAX_NAME_LEN);
+  if (cmp)
+  {
+    // cmp isn't 0 -> artists aren't the same
+    return cmp;
+  }
+  else
+  {
+    // cmp == 0, artists are the same, compare songs
+    return strncmp(song1, song2, MAX_NAME_LEN);
+  }
 }
 
 struct song_node *free_list(struct song_node *n)
@@ -143,11 +206,11 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
   }
   while (nextN)
   {
-    current->length = nextN->length;    // reduce the length
+    current->length = nextN->length; // reduce the length
     if (strcmp(nextN->name, rname) == 0 && strcmp(current->artist, rartist))
     {
-      current->next = nextN->next;      // set nextN's next to current's next
-      free(nextN);                      // and free nextN
+      current->next = nextN->next; // set nextN's next to current's next
+      free(nextN);                 // and free nextN
       return front;
     }
     current = nextN;
@@ -156,7 +219,8 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
   }
   // not found, fix all the lengths
   current = front;
-  while (size){
+  while (size)
+  {
     current->length = size;
     size = size - 1;
     current = current->next;
@@ -165,7 +229,7 @@ struct song_node *remove_song_node(struct song_node *front, char *rname, char *r
 }
 
 /** find and return a pointer to a song_node based on artist and song name */
-struct song_node *get_by_artist_song(struct song_node *front, char *song, char *artist)
+struct song_node *get_by_song_artist(struct song_node *front, char *song, char *artist)
 {
   struct song_node *trav = front;
   while (trav)
@@ -187,9 +251,10 @@ struct song_node *get_by_artist_song(struct song_node *front, char *song, char *
 
 //Rachel's functions
 // Create the following functions:
-void print_list(struct song_node * n){
+void print_list(struct song_node *n)
+{
   // printf("Printing playlist at address %p: \n  ", n);
-  if (n==NULL || n->length == 0)
+  if (n == NULL || n->length == 0)
   {
     printf("No songs in playlist.\n");
     return;
@@ -207,7 +272,7 @@ void print_list(struct song_node * n){
 }
 // Should take a pointer to a song_node struct and print out all of the data in the list
 
-void print_list_without_len(struct song_node * current)
+void print_list_without_len(struct song_node *current)
 {
   while (current)
   {
@@ -237,10 +302,12 @@ struct song_node *insert_front(struct song_node *n, char *newname, char *newarti
   strcpy(current->name, newname);
   strcpy(current->artist, newartist);
   current->next = n;
-  if (n){
-    current->length=n->length + 1;
+  if (n)
+  {
+    current->length = n->length + 1;
   }
-  else{
+  else
+  {
     current->length = 1;
   }
   return current;
@@ -295,9 +362,9 @@ struct song_node *random_song(struct song_node *n, int size)
 }
 // Return a pointer to random element in the list.
 
-struct song_node * get_by_index(struct song_node * n, int i)
+struct song_node *get_by_index(struct song_node *n, int i)
 {
-  struct song_node * trav = n;
+  struct song_node *trav = n;
   int c;
   for (c = 0; c < i; c++)
   {
