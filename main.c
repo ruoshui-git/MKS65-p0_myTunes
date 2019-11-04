@@ -38,15 +38,15 @@ void printbar()
 int main(void)
 {
 
-  const int test_print_list = 0;
-  const int test_get_by_song_artist = 0;
-  const int test_first_song_by = 0;
-  const int test_remove_song_node = 0;
-  const int test_random_song = 0;
-  const int test_free_list = 0;
-  const int test_insert_order = 0;
+  const int test_print_list = 1;
+  const int test_get_by_song_artist = 1;
+  const int test_first_song_by = 1;
+  const int test_remove_song_node = 1;
+  const int test_random_song = 1;
+  const int test_free_list = 1;
+  const int test_insert_order = 1;
 
-  const int print_when_add = 0;
+  const int print_when_add = 1;
 
   struct song_node *p0 = NULL;
   struct song_node *p1 = NULL;
